@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wildwest
-  namespace: default
+  namespace: wildwest
 spec:
   replicas: 5
   selector:
@@ -21,20 +21,18 @@ spec:
         ports:
         - containerPort: 8080
 
---
-
+---
 apiVersion: v1
 kind: Service
 metadata:
   name: wildwest
-  namespace: default
   labels:
     app: wildwest
 spec:
   type: NodePort
   ports:
-    - name: wildwest
-      port: 8080
+  - name: wildwest
+    port: 8080
   selector:
     app: wildwest
 
@@ -44,12 +42,10 @@ kind: RoleBinding
 metadata:
   creationTimestamp: null
   name: view
-  namespace: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: view
 subjects:
-  - kind: ServiceAccount
-    name: default
-    namespace: default
+- kind: ServiceAccount
+  name: default
